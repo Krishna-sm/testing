@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+                <input id="input" type="text">
+                <button id="saveBtn">store</button>
+                <button id="resetBtn">reset</button>
+
+                <ul id="store-container"></ul>
+</body>
+<script>
+    const store_container = document.getElementById("store-container")
+    const get_all_items = window.localStorage.getItem("list") || "[]"
+    // const get_all_items = window.sessionStorage.getItem("list") || "[]"
+
+        let arr  = JSON.parse(get_all_items)
+
+        document.getElementById("resetBtn").addEventListener("click",function(){
+            // sessionStorage.removeItem("list")
+            localStorage.removeItem("list")
+            arr=[]
+            SetDataFunction()
+        })
+
+    function SetDataFunction(){
+        store_container.innerHTML =''
+            for(let item of arr){
+                const node = document.createElement("li")
+            node.innerText = item
+            store_container.prepend(node)
+            }
+    }
+    SetDataFunction()
+
+    document.getElementById("saveBtn").addEventListener("click",()=>{   
+        const doc = document.getElementById("input")
+        const input_value =doc.value;
+        
+        if(!input_value) return;
+            const node = document.createElement("li")
+            node.innerText = input_value
+            store_container.prepend(node)
+            arr.push(input_value)
+            window.localStorage.setItem("list",JSON.stringify(arr))
+            // window.sessionStorage.setItem("list",JSON.stringify(arr))
+            doc.value=''
+    })
+
+
+</script>
+</html>
